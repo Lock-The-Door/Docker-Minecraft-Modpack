@@ -63,7 +63,7 @@ def _download_forge(minecraft_version):
         sys.exit("Couldn't find the forge server jar.")
 
     forge_jar = forge_jars[0]
-    _write_start_script(forge_jar)
+    _write_start_script(forge_jar.split('/')[-1])
 
 def _write_start_script(jar_file):
     # Gather Additional Arguments

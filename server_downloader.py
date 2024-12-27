@@ -58,10 +58,11 @@ def download_mods():
         # TODO: Implement hash verification
 
     # Copy over overrides directory if it exists
-    try:
-        shutil.move("overrides", "server")
-    except:
-        print("No overrides folder to copy")
+    # try:
+        # for file in os.listdir("overrides"):
+        shutil.copytree("overrides", "server", dirs_exist_ok=True)
+    # except:
+    #     print("No overrides folder to copy")
 
     # Return the modpack name and version
     return f"{modrinth_index['name']} {modrinth_index['versionId']}"
