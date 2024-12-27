@@ -30,7 +30,6 @@ FROM alpine:3 AS runtime
 RUN addgroup -S mcserver && adduser -S mcserver -G mcserver
 WORKDIR /server
 VOLUME [ "/data" ]
-RUN chown mcserver:mcserver /data
 RUN mkdir -p /data/world && mkdir -p /data/config && touch /data/server.properties && touch /data/ops.json && touch /data/whitelist.json
 RUN ln -s /data/world && ln -s /data/config && ln -s /data/server.properties && ln -s /data/ops.json && ln -s /data/whitelist.json
 
