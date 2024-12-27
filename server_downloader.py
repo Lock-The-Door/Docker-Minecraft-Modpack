@@ -11,14 +11,16 @@ def main():
     action = sys.argv[1]
 
     match action:
-        case 'download':
+        case 'mrpack':
             if os.path.exists('modpack.mrpack'):
                 print('Modpack already available. Skipping download...')
             else:
                 download_mrpack(sys.argv[2])
             extract_mrpack()
+        case 'mods':
             os.mkdir('server')
             download_mods()
+        case 'server':
             download_server()
         case _:
             sys.exit('Invalid action provided. Exiting...')
