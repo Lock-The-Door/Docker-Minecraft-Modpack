@@ -19,7 +19,7 @@ def main():
                 download_mrpack(sys.argv[2])
             extract_mrpack()
         case 'mods':
-            os.mkdir('server')
+            os.makedirs('server', exist_ok=True)
             download_mods()
         case 'server':
             download_server()
@@ -56,7 +56,7 @@ def download_mods():
 
         # Verify the mod hash
         # TODO: Implement hash verification
-    
+
     # Copy over overrides directory if it exists
     try:
         shutil.move("overrides", "server")
