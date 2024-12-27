@@ -16,21 +16,23 @@ ARG TYPICAL_START_ARGS="-XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewS
 ARG ADDITIONAL_START_ARGS
 ENV MAX_RAM=${MAX_RAM}
 ENV MIN_RAM=${MIN_RAM}
-ENV TYPICAL_START_ARGS=${TYPICAL_ADDITIONAL_START_ARGS}
+ENV TYPICAL_START_ARGS=${TYPICAL_START_ARGS}
 ENV ADDITIONAL_START_ARGS=${ADDITIONAL_START_ARGS}
 
 COPY [ "${MRPACK_FILE}", "modpack.mrpack" ]
 RUN python server_downloader.py mrpack ${MRPACK_VERSION} ${MRPACK_ID}
 RUN python server_downloader.py mods
 RUN python server_downloader.py server
-COPY overrides/* server
 
 FROM alpine:3 AS runtime
 RUN addgroup -S mcserver && adduser -S mcserver -G mcserver
+COPY --from=build /build/java-version /java-version
+RUN apk add --no-cache $(cat /java-version)
+RUN rm /java-version
 USER mcserver:mcserver
 WORKDIR /server
 COPY --from=build --chown=mcserver:mcserver /build/server /server
-RUN apk add --no-cache $(cat /server/java-version)
 
+EXPOSE 25565
 ENTRYPOINT [ "/bin/sh" ]
 CMD [ "start.sh" ]

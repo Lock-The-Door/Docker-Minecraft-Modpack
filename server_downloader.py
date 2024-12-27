@@ -3,8 +3,9 @@ import os
 import zipfile as zip
 import json
 import requests
-from logging import warn
+from logging import warning
 import modloader_downloader
+import shutil
 
 def main():
     # Grab the first argument as the action to take
@@ -55,6 +56,12 @@ def download_mods():
 
         # Verify the mod hash
         # TODO: Implement hash verification
+    
+    # Copy over overrides directory if it exists
+    try:
+        shutil.move("overrides", "server")
+    except:
+        print("No overrides folder to copy")
 
     # Return the modpack name and version
     return f"{modrinth_index['name']} {modrinth_index['versionId']}"
@@ -78,13 +85,13 @@ def download_server():
             break
 
     if modloader is None:
-        warn('No modloader found in dependencies.')
+        warning('No modloader found in dependencies.')
         modloader_downloader.download_modloader('minecraft', None, minecraft_version)
     else:
         modloader_downloader.download_modloader(modloader, modloader_version, minecraft_version)
 
     # Save the recommended alpine java package to the server folder
-    with open('server/java-version', 'w') as recommended_java:
+    with open('java-version', 'w') as recommended_java:
         # For versions 1.16.5 and below, use openjdk8-jre-base, otherwise use openjdk17-jre-headless
         minor_version = int(minecraft_version.split('.')[1])
         recommended_java.write('openjdk8-jre-base' if minor_version <= 16 else 'openjdk17-jre-headless')

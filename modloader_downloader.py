@@ -55,16 +55,14 @@ def _download_forge(minecraft_version):
         forge_jar.write(forge_req.content)
 
     # Install forge
-    subprocess.run(['java', '-jar', 'forge-installer.jar', '--installServer'], cwd="server", check=True)
+    subprocess.run(['java', '-jar', '../forge-installer.jar', '--installServer'], cwd="server", check=True)
 
-    # Remove log file and figure out where the server jar is
+    # Figure out where the server jar is
     forge_jars = glob.glob('server/forge-*.jar')
     if len(forge_jars) != 1:
         sys.exit("Couldn't find the forge server jar.")
 
     forge_jar = forge_jars[0]
-    install_log = forge_jar[:-4] + "-installer.jar.log"
-    os.remove(install_log)
     _write_start_script(forge_jar)
 
 def _write_start_script(jar_file):
@@ -77,4 +75,4 @@ def _write_start_script(jar_file):
     start_script = f"#!/bin/sh\njava -server -Xmx{max_memory} -Xms{min_memory} {typical_args} {additional_args} -jar {jar_file} nogui"
     with open('server/start.sh', 'w') as start_script_file:
         start_script_file.write(start_script)
-    os.chmod('start.sh', 0o744)
+    os.chmod('server/start.sh', 0o744)
