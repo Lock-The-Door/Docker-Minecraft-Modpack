@@ -28,7 +28,30 @@ def main():
 
 def download_mrpack(mrpack_source):
     # Validate the type of source. The docker builder will copy the modpack to modpack.mrpack if available.
-    pass
+    project_url = f"https://api.modrinth.com/v2/project/{mrpack_source}"
+    version_url = f"https://api.modrinth.com/v2/version/{mrpack_source}"
+    project_req = requests.get(project_url)
+    if project_req.status_code == 200:
+        project = project_req.json()
+        version_url = f"https://api.modrinth.com/v2/version/{project['versions'][-1]}"
+
+    version_req = requests.get(version_url)
+    if version_req.status_code != 200:
+        sys.exit(f"Couldn't find the modpack with the source provided: {mrpack_source}")
+    version = version_req.json()
+    version_downloads = version['files']
+    download_url = None
+    for download in version_downloads:
+        if download['primary']:
+            download_url = download['url']
+            break
+    if download_url is None:
+        sys.exit(f"Couldn't find the primary download for the modpack with the source provided: {mrpack_source}")
+
+    download_req = requests.get(download_url)
+    with open('modpack.mrpack', 'wb') as modpack_file:
+        modpack_file.write(download_req.content)
+
 def extract_mrpack():
     # Extract the mrpack to the current directory as a zip file
     zip.ZipFile('modpack.mrpack').extractall()
