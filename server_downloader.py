@@ -30,6 +30,7 @@ def main():
 
 def download_mrpack(mrpack_source):
     # Validate the type of source. The docker builder will copy the modpack to modpack.mrpack if available.
+    mrpack_source = mrpack_source.strip()
     project_url = f"https://api.modrinth.com/v2/project/{mrpack_source}"
     version_url = f"https://api.modrinth.com/v2/version/{mrpack_source}"
     project_req = requests.get(project_url)
