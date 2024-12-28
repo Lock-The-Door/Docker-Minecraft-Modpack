@@ -17,7 +17,7 @@ def main():
                 print('Modpack already available. Skipping download...')
             else:
                 if os.path.exists('modpack.mrpack'):
-                    os.removedirs('modpack.mrpack')
+                    shutil.rmtree('modpack.mrpack')
                 download_mrpack(sys.argv[2])
             extract_mrpack()
         case 'mods':
