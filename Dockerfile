@@ -6,7 +6,6 @@ RUN mkdir /build/server && echo "eula=true" > /build/server/eula.txt
 COPY *.py ./
 
 ARG MRPACK_FILE
-ARG MRPACK_VERSION
 ARG MRPACK_ID
 ARG INSTALL_OPTIONAL_MODS=1
 ENV INSTALL_OPTIONAL_MODS=${INSTALL_OPTIONAL_MODS}
@@ -21,7 +20,7 @@ ENV TYPICAL_START_ARGS=${TYPICAL_START_ARGS}
 ENV ADDITIONAL_START_ARGS=${ADDITIONAL_START_ARGS}
 
 COPY [ "${MRPACK_FILE}", "modpack.mrpack" ]
-RUN python server_downloader.py mrpack ${MRPACK_VERSION} ${MRPACK_ID}
+RUN python server_downloader.py mrpack ${MRPACK_ID}
 RUN python server_downloader.py mods
 RUN python server_downloader.py server
 

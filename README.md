@@ -10,7 +10,7 @@ From there the docker image will be configured to automatically run the modded s
 
 ## Usage
 Set the following build arguments via `--build-arg [ARG]=[VAL]`:
-- Set `MRPACK_FILE` to the location of the mrpack file (must be within the build context), `MRPACK_VERSION` to a specific version id of the modpack or `MRPACK_ID` to the modrinth id/slug (which downloads the latest version). (Priority: File, Version, ID)
+- Set `MRPACK_FILE` to the location of the mrpack file if using a local .mrpack (must be within the build context) or set `MRPACK_ID` to the modrinth project id/slug (which downloads the latest version) or a version id to lock a specific modpack version. (Priority: File)
 - Optionally set `MAX_RAM` and `MIN_RAM` same as setting `-Xmx` and `-Xms` in the Java command. (Default: 2G-4G)
 - Optionally set `INSTALL_OPTIONAL_MODS` to `0` if you don't want to install optional mods. (Default: 1)
 
