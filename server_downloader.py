@@ -13,9 +13,11 @@ def main():
 
     match action:
         case 'mrpack':
-            if os.path.exists('modpack.mrpack'):
+            if os.path.isfile('modpack.mrpack'):
                 print('Modpack already available. Skipping download...')
             else:
+                if os.path.exists('modpack.mrpack'):
+                    os.remove('modpack.mrpack')
                 download_mrpack(sys.argv[2])
             extract_mrpack()
         case 'mods':
