@@ -98,8 +98,8 @@ def _download_neoforge(loader_version):
     subprocess.run(['java', '-jar', 'neoforge-installer.jar', '--install-server', 'server'], check=True)
 
     # Replace start scripts
-    os.remove('server/start.sh')
-    os.remove('server/start.bat')
+    os.remove('server/run.sh')
+    os.remove('server/run.bat')
     os.remove('server/user_jvm_args.txt')
     _write_start_script('@libraries/net/neoforged/neoforge/21.1.91/unix_args.txt nogui "$@"')
 
