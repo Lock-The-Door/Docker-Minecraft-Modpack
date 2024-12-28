@@ -67,6 +67,11 @@ def download_mods():
     # Return the modpack name and version
     return f"{modrinth_index['name']} {modrinth_index['versionId']}"
 
+RECOMMENDED_JAVA_VERSIONS = {
+    0: 'openjdk8-jre-base', # Default
+    17: 'openjdk17-jre-headless',
+    20: 'openjdk21-jre-headless'
+}
 def download_server():
     # Reads the mrpack and figures out the appropriate modloader and server version to download.
     # Returns a string that represents the modloader and server version.
@@ -95,7 +100,13 @@ def download_server():
     with open('java-version', 'w') as recommended_java:
         # For versions 1.16.5 and below, use openjdk8-jre-base, otherwise use openjdk17-jre-headless
         minor_version = int(minecraft_version.split('.')[1])
-        recommended_java.write('openjdk8-jre-base' if minor_version <= 16 else 'openjdk17-jre-headless')
+        recommended_java_version = RECOMMENDED_JAVA_VERSIONS[0]
+        for version in RECOMMENDED_JAVA_VERSIONS:
+            if minor_version >= version:
+                recommended_java_version = RECOMMENDED_JAVA_VERSIONS[version]
+            else:
+                break
+        recommended_java.write(recommended_java_version)
 
     return f"{modloader}-{modloader_version} for {minecraft_version}"
 
