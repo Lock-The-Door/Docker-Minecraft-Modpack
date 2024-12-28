@@ -101,7 +101,7 @@ def _download_neoforge(loader_version):
     os.remove('server/run.sh')
     os.remove('server/run.bat')
     os.remove('server/user_jvm_args.txt')
-    _write_start_script('@libraries/net/neoforged/neoforge/21.1.91/unix_args.txt nogui "$@"')
+    _write_start_script(f'@libraries/net/neoforged/neoforge/{loader_version}/unix_args.txt nogui "$@"')
 
 def _write_start_script(launch_command):
     # Gather Additional Arguments
