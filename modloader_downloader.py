@@ -5,7 +5,7 @@ import sys
 import os
 import glob
 
-SUPPORTED_MODLOADERS = ['fabric', 'forge', 'quilt-loader', 'neoforge']
+SUPPORTED_MODLOADERS = ['fabric-loader', 'forge', 'quilt-loader', 'neoforge']
 
 def download_modloader(modloader, loader_version, minecraft_version):
     """The only function that needs to be called in this module.
@@ -15,7 +15,7 @@ def download_modloader(modloader, loader_version, minecraft_version):
     match modloader:
         case 'minecraft':
             _download_minecraft(minecraft_version)
-        case 'fabric':
+        case 'fabric-loader':
             _download_fabric(loader_version, minecraft_version)
         case 'forge':
             _download_forge(minecraft_version)
