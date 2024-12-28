@@ -40,6 +40,7 @@ RUN rm /java-version
 # USER mcserver:mcserver
 COPY --from=build /build/server /server
 VOLUME [ "/server/config" ]
+VOLUME [ "/server/logs" ]
 
 EXPOSE 25565
 ENTRYPOINT [ "/bin/sh" ]
