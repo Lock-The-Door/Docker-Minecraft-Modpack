@@ -34,7 +34,7 @@ RUN mkdir -p /data/world && touch /data/server.properties && touch /data/ops.jso
 RUN ln -s /data/world && ln -s /data/server.properties && ln -s /data/ops.json && ln -s /data/whitelist.json
 
 COPY --from=build /build/java-version /java-version
-RUN apk add --no-cache $(cat /java-version) bash
+RUN apk add --no-cache $(cat /java-version)
 RUN rm /java-version
 
 # USER mcserver:mcserver
