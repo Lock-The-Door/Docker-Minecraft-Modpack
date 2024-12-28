@@ -72,6 +72,9 @@ def _download_forge(minecraft_version):
     forge_jars = glob.glob('server/forge-*.jar')
     if len(forge_jars) != 1:
         sys.exit("Couldn't find the forge server jar.")
+    
+    # Remove installer log
+    os.remove("server/forge-installer.jar.log")
 
     forge_jar = forge_jars[0]
     _write_jar_start_script(forge_jar.split('/')[-1])
