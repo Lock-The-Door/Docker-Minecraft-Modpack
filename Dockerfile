@@ -2,7 +2,6 @@ FROM python:3.12.8-alpine AS build
 WORKDIR /build
 RUN apk add --no-cache openjdk21-jre-headless
 RUN pip install requests
-RUN mkdir /build/server && echo "eula=true" > /build/server/eula.txt
 COPY *.py ./
 
 ARG MRPACK_FILE
@@ -28,6 +27,7 @@ RUN python server_downloader.py server
 FROM alpine:3 AS runtime
 RUN addgroup -S mcserver && adduser -S mcserver -G mcserver
 WORKDIR /server
+RUN echo "eula=true" > eula.txt
 VOLUME [ "/data" ]
 RUN mkdir -p /data/world && touch /data/server.properties && touch /data/ops.json && touch /data/whitelist.json
 RUN ln -s /data/world && ln -s /data/server.properties && ln -s /data/ops.json && ln -s /data/whitelist.json
