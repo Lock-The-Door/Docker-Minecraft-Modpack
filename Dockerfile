@@ -1,6 +1,6 @@
 FROM python:3.12.8-alpine AS build
 WORKDIR /build
-RUN apk add --no-cache openjdk11-jre-headless
+RUN apk add --no-cache openjdk21-jre-headless
 RUN pip install requests
 RUN mkdir /build/server && echo "eula=true" > /build/server/eula.txt
 COPY *.py ./
