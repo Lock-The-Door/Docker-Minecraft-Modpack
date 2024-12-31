@@ -1,3 +1,8 @@
+# Disclaimer
+By using this docker file and running containers created with it, you are also agreeing to the [Minecraft EULA](https://account.mojang.com/documents/minecraft_eula) as the image created sets eula=true by default.
+
+This docker file is provided as is, I am not responsible for any loss of data (e.g. world data) caused by these scripts.
+
 # Modpack Server Downloader/Runner
 This (primarily) docker based project downloads all the files necessary to run a modpack minecraft server.
 It uses modrinth as the primary backend to locate mods and will download the appropriate modloader and server jars.

@@ -113,7 +113,7 @@ def _write_start_script(launch_command):
     typical_args = os.environ.get("TYPICAL_START_ARGS", "-XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M")
     additional_args = os.environ.get("ADDITIONAL_START_ARGS", "")
 
-    start_script = f"#!/bin/sh\njava -server -Xmx{max_memory} -Xms{min_memory} {typical_args} {additional_args} {launch_command}"
+    start_script = f"#!/bin/sh\nexec java -server -Xmx{max_memory} -Xms{min_memory} {typical_args} {additional_args} {launch_command}"
     with open('server/start.sh', 'w') as start_script_file:
         start_script_file.write(start_script)
     os.chmod('server/start.sh', 0o744)

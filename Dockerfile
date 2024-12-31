@@ -27,20 +27,23 @@ RUN python server_downloader.py server
 FROM alpine:3 AS runtime
 RUN addgroup -S mcserver && adduser -S mcserver -G mcserver
 WORKDIR /server
-RUN echo "eula=true" > eula.txt
 VOLUME [ "/data" ]
-RUN mkdir -p /data/world && touch /data/server.properties && touch /data/ops.json && touch /data/whitelist.json && touch /data/banned-ips.json && touch /data/banned-players.json
-RUN ln -s /data/world && ln -s /data/server.properties && ln -s /data/ops.json && ln -s /data/whitelist.json && ln -s /data/banned-ips.json && ln -s /data/banned-players.json
+VOLUME [ "/server/config" ]
+VOLUME [ "/server/logs" ]
+
+RUN echo "eula=true" > eula.txt
+
+RUN mkdir -p /data/world && touch /data/server.properties && touch /data/ops.json && touch /data/whitelist.json && echo [] > /data/banned-players.json && echo [] > /data/banned-ips.json
+RUN ln -s /data/world && ln -s /data/server.properties && ln -s /data/ops.json && ln -s /data/whitelist.json && ln -s /data/banned-players.json && ln -s /data/banned-ips.json
 
 COPY --from=build /build/java-version /java-version
 RUN apk add --no-cache $(cat /java-version)
 RUN rm /java-version
 
-# USER mcserver:mcserver
 COPY --from=build /build/server /server
-VOLUME [ "/server/config" ]
-VOLUME [ "/server/logs" ]
+RUN chown -R mcserver:mcserver /server /data
+USER mcserver:mcserver
 
 EXPOSE 25565
-ENTRYPOINT [ "/bin/sh" ]
-CMD [ "start.sh" ]
+ENTRYPOINT [ "/bin/sh", "-c" ]
+CMD [ "/server/start.sh" ]
