@@ -2,6 +2,7 @@
 By using this docker file and running containers created with it, you are also agreeing to the [Minecraft EULA](https://account.mojang.com/documents/minecraft_eula) as the image created sets eula=true by default.
 
 This docker file is provided as is, I am not responsible for any loss of data (e.g. world data) caused by these scripts.
+I highly recommend you become pretty familiar and comfortable with docker before using this.
 
 # Modpack Server Downloader/Runner
 This (primarily) docker based project downloads all the files necessary to run a modpack minecraft server.
@@ -24,3 +25,15 @@ Note that the volume will only store world data and base minecraft configuration
 
 Due to certain mods not liking symlinks, a seperate volume is located at `/server/config` for config folder persistence.
 Any additional folders created that need to be persisted will require setting up your own volume. The root of the server directory is `/server`
+
+### Example
+I place a mrpack file in the same directory and run this command to build and run:
+```bash
+docker build --build-arg MRPACK_FILE=modpack.mrpack -t modpack-server:latest .
+# If using packs from modrinth
+docker build --build-arg MRPACK_ID=modpack-url-slug -t modpack-server:latest .
+
+docker run -d -p 25565:25565 -v $(pwd)/data:/data -v $(pwd)/server/config:/server/config modpack-server:latest
+# Or if using proper volumes (and putting the logs volume to a tmpfs)
+docker run -d -p 25565:25565 -v Modpack-World:/data -v Modpack-Config:/server/config --tmpfs /server/logs modpack-server:latest
+```
